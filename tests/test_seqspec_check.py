@@ -51,7 +51,7 @@ class TestSeqspecCheck(TestCase):
             with patch("os.path.exists") as path_exists:
                 path_exists.return_value = True
                 errors = validate_check_args(None, args)
-                self.assertEqual(errors, None)
+                self.assertEqual(errors, [])
 
     def test_check_for_igvf_valid(self):
         spec_fn = "tests/data/seqspec_valid_igvf.yaml"
