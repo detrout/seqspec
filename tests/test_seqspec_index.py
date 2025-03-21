@@ -99,5 +99,3 @@ class TestSeqspecIndex(TestCase):
         self.assertEqual(
             chromap_tool,
             "-1 IGVFFI4653IBZO.fastq.gz -2 IGVFFI3278EOPV.fastq.gz --barcode IGVFFI3278EOPV.fastq.gz --read-format bc:65:72,bc:103:110,bc:141:148,r1:0:149,r2:0:49")
-
-        
