@@ -50,3 +50,4 @@ def test_seqspec_check_igvf(seqspec_valid_ignore_onlist: Assay):
     assert errors[1]["error_type"] == "check_onlist_files_exist"
     assert errors[1]["error_object"] == "onlist"
     assert errors[1]["error_message"] == "IGVFFI7587TJLC.tsv.gz does not exist"
+
