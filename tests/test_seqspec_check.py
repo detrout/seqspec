@@ -51,3 +51,28 @@ def test_seqspec_check_igvf(seqspec_valid_ignore_onlist: Assay):
     assert errors[1]["error_object"] == "onlist"
     assert errors[1]["error_message"] == "IGVFFI7587TJLC.tsv.gz does not exist"
 
+def test_seqspec_check_random_max_length(seqspec_valid_ignore_onlist: Assay):
+    errors = seqspec_check(spec=seqspec_valid_ignore_onlist, filter_type="igvf_onlist_skip")
+    assert len(errors) == 0
+
+def test_seqspec_check_random_min_length(seqspec_valid_ignore_onlist: Assay):
+    gdna = seqspec_valid_ignore_onlist.library_spec[0].get_region_by_id("gDNA")[0]
+    gdna.sequence = "X" * gdna.min_len
+    atac = seqspec_valid_ignore_onlist.library_spec[0].get_region_by_id("atac")[0]
+    atac.sequence = atac.sequence.replace("X" * gdna.max_len, "X" * gdna.min_len)
+
+    errors = seqspec_check(spec=seqspec_valid_ignore_onlist, filter_type="igvf_onlist_skip")
+    assert len(errors) == 0
+
+def test_seqspec_check_random_wrong_length(seqspec_valid_ignore_onlist: Assay):
+    gdna = seqspec_valid_ignore_onlist.library_spec[0].get_region_by_id("gDNA")[0]
+    gdna.sequence = "X"
+
+    errors = seqspec_check(spec=seqspec_valid_ignore_onlist, filter_type="igvf_onlist_skip")
+    assert len(errors) == 3
+    assert errors[0]["error_type"] == "check_sequence_types"
+    assert errors[0]["error_object"] == "region"
+    assert errors[1]["error_type"] == "check_sequence_lengths"
+    assert errors[1]["error_object"] == "region"
+    assert errors[2]["error_type"] == "check_region_against_subregion_sequence"
+    assert errors[2]["error_object"] == "region"
