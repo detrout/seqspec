@@ -250,9 +250,9 @@ class Assay(BaseModel):
 Assay: {self.assay_id}
 Modalities: {self.modalities}
 Reads:
-{"\n".join(rds)}
+{os.linesep.join(rds)}
 Regions:
-{"\n".join(rgns)}
+{os.linesep.join(rgns)}
 """
         # return str(self.model_dump())
         return s
